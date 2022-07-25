@@ -1,0 +1,561 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>TypeScript快速入门（四） —— 接口、类、对象 | Jasmine's Blog</title><meta name="keywords" content="TypeScript"><meta name="author" content="Jasmine Jiang"><meta name="copyright" content="Jasmine Jiang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="接口接口是一系列抽象方法的声明，并由具体的类去实现语法： interface interface_name { } &#x2F;&#x2F; 定义接口 IPerson interface IPerson &amp;#123;      firstName:string,      lastName:string,      sayHi: ()&#x3D;&gt;string  &amp;#125;    var customer:IPerso">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript快速入门（四） —— 接口、类、对象">
+<meta property="og:url" content="https://jasminejiang96.github.io/2022/07/16/20220716/index.html">
+<meta property="og:site_name" content="Jasmine&#39;s Blog">
+<meta property="og:description" content="接口接口是一系列抽象方法的声明，并由具体的类去实现语法： interface interface_name { } &#x2F;&#x2F; 定义接口 IPerson interface IPerson &amp;#123;      firstName:string,      lastName:string,      sayHi: ()&#x3D;&gt;string  &amp;#125;    var customer:IPerso">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jasminejiang96.github.io/photos/ts.jpg">
+<meta property="article:published_time" content="2022-07-16T01:46:13.000Z">
+<meta property="article:modified_time" content="2022-07-21T07:42:15.240Z">
+<meta property="article:author" content="Jasmine Jiang">
+<meta property="article:tag" content="TypeScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jasminejiang96.github.io/photos/ts.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jasminejiang96.github.io/2022/07/16/20220716/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"WBHAQ5NZAI","apiKey":"e37eb87afc20f21833e72e10f3a36c83","indexName":"hexo_blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'TypeScript快速入门（四） —— 接口、类、对象',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-21 15:42:15'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/photos/headportrait.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/photos/ts.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Jasmine's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">TypeScript快速入门（四） —— 接口、类、对象</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-16T01:46:13.000Z" title="发表于 2022-07-16 09:46:13">2022-07-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-21T07:42:15.240Z" title="更新于 2022-07-21 15:42:15">2022-07-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="TypeScript快速入门（四） —— 接口、类、对象"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>接口是一系列抽象方法的声明，并由具体的类去实现<br>语法： <strong>interface interface_name { }</strong></p>
+<pre><code class="TypeScript">// 定义接口 IPerson
+interface IPerson &#123; 
+    firstName:string, 
+    lastName:string, 
+    sayHi: ()=&gt;string 
+&#125; 
+ 
+var customer:IPerson = &#123; 
+    firstName:&quot;Tom&quot;,
+    lastName:&quot;Hanks&quot;, 
+    sayHi: ():string =&gt;&#123;return &quot;Hi there&quot;&#125; 
+&#125; 
+ 
+console.log(&quot;Customer 对象 &quot;) 
+console.log(customer.firstName) 
+console.log(customer.lastName) 
+console.log(customer.sayHi())  
+</code></pre>
+<p>输出结果：<br>Customer 对象<br>Tom<br>Hanks<br>Hi there</p>
+<h4 id="联合类型和接口"><a href="#联合类型和接口" class="headerlink" title="联合类型和接口"></a>联合类型和接口</h4><pre><code class="TypeScript">interface RunOptions &#123; 
+    program:string; 
+    commandline:string[]|string|(()=&gt;string); 
+&#125; 
+ 
+// commandline 是字符串
+var options:RunOptions = &#123;program:&quot;test1&quot;,commandline:&quot;Hello&quot;&#125;; 
+console.log(options.commandline)  
+ 
+// commandline 是字符串数组
+options = &#123;program:&quot;test1&quot;,commandline:[&quot;Hello&quot;,&quot;World&quot;]&#125;; 
+console.log(options.commandline[0]); 
+console.log(options.commandline[1]);  
+ 
+// commandline 是一个函数表达式
+options = &#123;program:&quot;test1&quot;,commandline:()=&gt;&#123;return &quot;**Hello World**&quot;;&#125;&#125;; 
+ 
+var fn:any = options.commandline; 
+console.log(fn());
+</code></pre>
+<h4 id="接口和数组"><a href="#接口和数组" class="headerlink" title="接口和数组"></a>接口和数组</h4><p>接口中我们可以将数组的索引值和元素设置为不同类型，索引值可以是数字或字符串。</p>
+<pre><code class="TypeScript">interface namelist &#123; 
+   [index:number]:string 
+&#125; 
+ 
+// 类型一致，正确
+var list2:namelist = [&quot;Google&quot;,&quot;Runoob&quot;,&quot;Taobao&quot;]
+// 错误元素 1 不是 string 类型,报错
+ var list2:namelist = [&quot;Runoob&quot;,1,&quot;Taobao&quot;]
+
+ // 索引值是字符串
+ interface ages &#123; 
+   [index:string]:number 
+&#125; 
+ 
+var agelist:ages; 
+ // 类型正确 
+agelist = &#123;jasmine: 25&#125;; 
+</code></pre>
+<h4 id="接口继承"><a href="#接口继承" class="headerlink" title="接口继承"></a>接口继承</h4><p>单接口继承语法格式：<strong>Child_interface_name extends super_interface_name</strong><br>多接口继承语法格式：<strong>Child_interface_name extends super_interface1_name, super_interface2_name,…,super_interfaceN_name</strong></p>
+<pre><code class="TypeScript">// 单继承
+interface Person &#123; 
+   age:number 
+&#125; 
+ 
+interface Musician extends Person &#123; 
+   instrument:string 
+&#125; 
+ 
+var drummer = &lt;Musician&gt;&#123;&#125;; 
+drummer.age = 27 
+drummer.instrument = &quot;Drums&quot; 
+console.log(&quot;年龄:  &quot;+drummer.age)
+console.log(&quot;喜欢的乐器:  &quot;+drummer.instrument)
+
+// 多继承
+interface IParent1 &#123; 
+    v1:number 
+&#125; 
+ 
+interface IParent2 &#123; 
+    v2:number 
+&#125; 
+ 
+interface Child extends IParent1, IParent2 &#123; &#125; 
+var Iobj:Child = &#123; v1:12, v2:23&#125; 
+console.log(&quot;value 1: &quot;+Iobj.v1+&quot; value 2: &quot;+Iobj.v2)
+</code></pre>
+<h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><p>类描述了所创建的对象共同的属性和方法。<br>类包含：<br>字段 − 字段是类里面声明的变量。字段表示对象的有关数据。</p>
+<p>构造函数 − 类实例化时调用，可以为类的对象分配内存。</p>
+<p>方法 − 方法为对象要执行的操作。<br>语法：<br><strong>class class_name {<br>    // 类作用域<br>}</strong></p>
+<pre><code class="TypeScript">class Car &#123; 
+    // 字段 
+    engine:string; 
+ 
+    // 构造函数 
+    constructor(engine:string) &#123; 
+        this.engine = engine 
+    &#125;  
+ 
+    // 方法 
+    disp():void &#123; 
+        console.log(&quot;发动机为 :   &quot;+this.engine) 
+    &#125; 
+&#125;
+
+// 创建实例化对象
+var obj = new Car(&quot;Engine 1&quot;);
+
+// 访问字段
+console.log(&quot;读取发动机型号 :  &quot;+obj.engine)  
+ 
+// 访问方法
+obj.disp()
+</code></pre>
+<h4 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h4><p>子类只能继承一个父类，TypeScript 不支持继承多个类，但支持多重继承</p>
+<pre><code class="TypeScript">// 实例中创建了 Shape 类，Circle 类继承了 Shape 类，Circle 类可以直接使用 Area 属性
+class Shape &#123; 
+   Area:number 
+   
+   constructor(a:number) &#123; 
+      this.Area = a 
+   &#125; 
+&#125; 
+ 
+class Circle extends Shape &#123; 
+   disp():void &#123; 
+      console.log(&quot;圆的面积:  &quot;+this.Area) 
+   &#125; 
+&#125;
+  
+var obj = new Circle(223); 
+obj.disp()
+</code></pre>
+<h4 id="继承类的方法重写"><a href="#继承类的方法重写" class="headerlink" title="继承类的方法重写"></a>继承类的方法重写</h4><p>类继承后，子类可以对父类的方法重新定义，这个过程称之为方法的重写<br>super 关键字是对父类的直接引用，该关键字可以引用父类的属性和方法。</p>
+<pre><code class="TypeScript">class PrinterClass &#123; 
+   doPrint():void &#123;
+      console.log(&quot;父类的 doPrint() 方法。&quot;) 
+   &#125; 
+&#125; 
+ 
+class StringPrinter extends PrinterClass &#123; 
+   doPrint():void &#123; 
+      super.doPrint() // 调用父类的函数
+      console.log(&quot;子类的 doPrint()方法。&quot;)
+   &#125; 
+&#125;
+</code></pre>
+<h4 id="static-关键字"><a href="#static-关键字" class="headerlink" title="static 关键字"></a>static 关键字</h4><p>static 关键字用于定义类的数据成员（属性和方法）为静态的，静态成员可以直接通过类名调用。</p>
+<pre><code class="TypeScript">class StaticMem &#123;  
+   static num:number; 
+   
+   static disp():void &#123; 
+      console.log(&quot;num 值为 &quot;+ StaticMem.num) 
+   &#125; 
+&#125; 
+ 
+StaticMem.num = 12     // 初始化静态变量
+StaticMem.disp()       // 调用静态方法
+</code></pre>
+<h4 id="instanceof-运算符"><a href="#instanceof-运算符" class="headerlink" title="instanceof 运算符"></a>instanceof 运算符</h4><p>instanceof 运算符用于判断对象是否是指定的类型，如果是返回 true，否则返回 false。</p>
+<pre><code class="TypeScript">class Person&#123; &#125; 
+var obj = new Person() 
+var isPerson = obj instanceof Person; 
+console.log(&quot;obj 对象是 Person 类实例化来的吗？ &quot; + isPerson);
+</code></pre>
+<h4 id="访问控制修饰符"><a href="#访问控制修饰符" class="headerlink" title="访问控制修饰符"></a>访问控制修饰符</h4><p>public（默认） : 公有，可以在任何地方被访问。</p>
+<p>protected : 受保护，可以被其自身以及其子类访问。</p>
+<p>private : 私有，只能被其定义所在的类访问。</p>
+<pre><code class="TypeScript">class Encapsulate &#123; 
+   str1:string = &quot;hello&quot; 
+   private str2:string = &quot;world&quot; 
+&#125;
+ 
+var obj = new Encapsulate() 
+console.log(obj.str1)     // 可访问 
+console.log(obj.str2)   // 编译错误， str2 是私有的
+</code></pre>
+<h4 id="类和接口"><a href="#类和接口" class="headerlink" title="类和接口"></a>类和接口</h4><p>类可以实现接口，使用关键字 implements，并将 interest 字段作为类的属性使用。</p>
+<pre><code class="TypeScript">interface ILoan &#123; 
+   interest:number 
+&#125; 
+//  AgriLoan 类实现了 ILoan 接口
+class AgriLoan implements ILoan &#123; 
+   interest:number 
+   rebate:number 
+   
+   constructor(interest:number,rebate:number) &#123; 
+      this.interest = interest 
+      this.rebate = rebate 
+   &#125; 
+&#125; 
+ 
+var obj = new AgriLoan(10,1) 
+console.log(&quot;利润为 : &quot;+obj.interest+&quot;，抽成为 : &quot;+obj.rebate )
+</code></pre>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>对象是包含一组键值对的实例。 值可以是标量、函数、数组、对象等</p>
+<pre><code class="TypeScript">var object_name = &#123; 
+    key1: &quot;value1&quot;, // 标量
+    key2: &quot;value&quot;,  
+    key3: function() &#123;
+        // 函数
+    &#125;, 
+    key4:[&quot;content1&quot;, &quot;content2&quot;] //集合
+&#125;
+</code></pre>
+<h4 id="TypeScript-类型模板"><a href="#TypeScript-类型模板" class="headerlink" title="TypeScript 类型模板"></a>TypeScript 类型模板</h4><pre><code class="JavaScript">var sites = &#123; 
+   site1:&quot;Runoob&quot;, 
+   site2:&quot;Google&quot; 
+&#125;;
+// 这时想在对象中添加方法,这种方式在typeScript中会报错，因为Typescript 中的对象必须是特定类型的实例。
+sites.sayHello = function()&#123; return &quot;hello&quot;;&#125;
+</code></pre>
+<pre><code class="TypeScript">var sites = &#123;
+    site1: &quot;Runoob&quot;,
+    site2: &quot;Google&quot;,
+    sayHello: function () &#123; &#125; // 类型模板
+&#125;;
+sites.sayHello = function () &#123;
+    console.log(&quot;hello &quot; + sites.site1);
+&#125;;
+sites.sayHello();
+</code></pre>
+<p>对象也可以作为一个参数传递给函数</p>
+<pre><code class="TypeScript">var sites = &#123; 
+    site1:&quot;Runoob&quot;, 
+    site2:&quot;Google&quot;,
+&#125;; 
+var invokesites = function(obj: &#123; site1:string, site2 :string &#125;) &#123; 
+    console.log(&quot;site1 :&quot;+obj.site1) 
+    console.log(&quot;site2 :&quot;+obj.site2) 
+&#125; 
+invokesites(sites)
+</code></pre>
+<h4 id="鸭子类型-Duck-Typing"><a href="#鸭子类型-Duck-Typing" class="headerlink" title="鸭子类型(Duck Typing)"></a>鸭子类型(Duck Typing)</h4><p>鸭子类型（英语：duck typing）是动态类型的一种风格，是多态(polymorphism)的一种形式。<br>在这种风格中，一个对象有效的语义，不是由继承自特定的类或实现特定的接口，而是由”当前方法和属性的集合”决定。</p>
+<pre><code class="TypeScript">interface IPoint &#123; 
+    x:number 
+    y:number 
+&#125; 
+function addPoints(p1:IPoint,p2:IPoint):IPoint &#123; 
+    var x = p1.x + p2.x 
+    var y = p1.y + p2.y 
+    return &#123;x:x,y:y&#125; 
+&#125; 
+ 
+// 正确
+var newPoint = addPoints(&#123;x:3,y:4&#125;,&#123;x:5,y:1&#125;)  
+ 
+// 错误 
+var newPoint2 = addPoints(&#123;x:1&#125;,&#123;x:4,y:3&#125;)
+</code></pre>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://jasminejiang96.github.io">Jasmine Jiang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://jasminejiang96.github.io/2022/07/16/20220716/">https://jasminejiang96.github.io/2022/07/16/20220716/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://jasminejiang96.github.io" target="_blank">Jasmine's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/TypeScript/">TypeScript</a></div><div class="post_share"><div class="social-share" data-image="/photos/ts.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/07/17/20220717/"><img class="prev-cover" src="/photos/pic20220717.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MySql查看是否锁表并解除锁</div></div></a></div><div class="next-post pull-right"><a href="/2022/07/15/20220715/"><img class="next-cover" src="/photos/ts.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">TypeScript快速入门（三） —— 基础语法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/07/11/20220711/" title="TypeScript快速入门（一） —— 和JavaScript的区别"><img class="cover" src="/photos/ts.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-11</div><div class="title">TypeScript快速入门（一） —— 和JavaScript的区别</div></div></a></div><div><a href="/2022/07/15/20220715/" title="TypeScript快速入门（三） —— 基础语法"><img class="cover" src="/photos/ts.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-15</div><div class="title">TypeScript快速入门（三） —— 基础语法</div></div></a></div><div><a href="/2022/07/12/20220712/" title="TypeScript快速入门（二） —— 基础类型"><img class="cover" src="/photos/ts.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-12</div><div class="title">TypeScript快速入门（二） —— 基础类型</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Valine</span><span class="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/photos/headportrait.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jasmine Jiang</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JasmineJiang96"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.</span> <span class="toc-text">接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.1.</span> <span class="toc-text">联合类型和接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%95%B0%E7%BB%84"><span class="toc-number">1.2.</span> <span class="toc-text">接口和数组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E7%BB%A7%E6%89%BF"><span class="toc-number">1.3.</span> <span class="toc-text">接口继承</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF"><span class="toc-number">2.1.</span> <span class="toc-text">类的继承</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E7%B1%BB%E7%9A%84%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99"><span class="toc-number">2.2.</span> <span class="toc-text">继承类的方法重写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#static-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">2.3.</span> <span class="toc-text">static 关键字</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#instanceof-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.4.</span> <span class="toc-text">instanceof 运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">2.5.</span> <span class="toc-text">访问控制修饰符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.6.</span> <span class="toc-text">类和接口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.</span> <span class="toc-text">对象</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TypeScript-%E7%B1%BB%E5%9E%8B%E6%A8%A1%E6%9D%BF"><span class="toc-number">3.1.</span> <span class="toc-text">TypeScript 类型模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%B8%AD%E5%AD%90%E7%B1%BB%E5%9E%8B-Duck-Typing"><span class="toc-number">3.2.</span> <span class="toc-text">鸭子类型(Duck Typing)</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/07/17/20220717/" title="MySql查看是否锁表并解除锁"><img src="/photos/pic20220717.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySql查看是否锁表并解除锁"/></a><div class="content"><a class="title" href="/2022/07/17/20220717/" title="MySql查看是否锁表并解除锁">MySql查看是否锁表并解除锁</a><time datetime="2022-07-17T02:18:50.000Z" title="发表于 2022-07-17 10:18:50">2022-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/16/20220716/" title="TypeScript快速入门（四） —— 接口、类、对象"><img src="/photos/ts.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TypeScript快速入门（四） —— 接口、类、对象"/></a><div class="content"><a class="title" href="/2022/07/16/20220716/" title="TypeScript快速入门（四） —— 接口、类、对象">TypeScript快速入门（四） —— 接口、类、对象</a><time datetime="2022-07-16T01:46:13.000Z" title="发表于 2022-07-16 09:46:13">2022-07-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/15/20220715/" title="TypeScript快速入门（三） —— 基础语法"><img src="/photos/ts.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TypeScript快速入门（三） —— 基础语法"/></a><div class="content"><a class="title" href="/2022/07/15/20220715/" title="TypeScript快速入门（三） —— 基础语法">TypeScript快速入门（三） —— 基础语法</a><time datetime="2022-07-15T10:05:25.000Z" title="发表于 2022-07-15 18:05:25">2022-07-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/14/20220714/" title="换电脑后怎么迁移hexo博客？"><img src="/photos/pic20220714.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="换电脑后怎么迁移hexo博客？"/></a><div class="content"><a class="title" href="/2022/07/14/20220714/" title="换电脑后怎么迁移hexo博客？">换电脑后怎么迁移hexo博客？</a><time datetime="2022-07-14T01:25:39.000Z" title="发表于 2022-07-14 09:25:39">2022-07-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/13/20220713/" title="前端项目打包报错，nodejs内存溢出"><img src="https://i.loli.net/2019/11/10/T7Mu8Aod3egmC4Q.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="前端项目打包报错，nodejs内存溢出"/></a><div class="content"><a class="title" href="/2022/07/13/20220713/" title="前端项目打包报错，nodejs内存溢出">前端项目打包报错，nodejs内存溢出</a><time datetime="2022-07-13T08:25:57.000Z" title="发表于 2022-07-13 16:25:57">2022-07-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/photos/ts.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 By Jasmine Jiang</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://jasminejiang96.github.io/2022/07/16/20220716/'
+    this.page.identifier = '/2022/07/16/20220716/'
+    this.page.title = 'TypeScript快速入门（四） —— 接口、类、对象'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+
+  document.getElementById('darkmode').addEventListener('click', () => {
+    setTimeout(() => window.disqusReset(), 200)
+  })
+}
+
+if ('Valine' === 'Disqus' || !true) {
+  if (true) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><div class="aplayer no-destroy" data-id="60198" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
