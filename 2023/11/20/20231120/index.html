@@ -1,0 +1,460 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>认识微服务架构 | Jasmine's Blog</title><meta name="keywords" content="微服务"><meta name="author" content="Jasmine Jiang"><meta name="copyright" content="Jasmine Jiang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="微服务简介 一组小的服务 独立的进程 轻量级通信 基于业务能力 独立部署 无集中式管理  Loosely coupled service oriented architecture with bounded context 基于有界上下文的，松散耦合的⾯向服务的架构 微服务的利弊优势 强模块化边界 可独立部署 技术多样性  劣势 分布式系统复杂性 最终一致性 运维复杂性 测试复杂性  康威法则设计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识微服务架构">
+<meta property="og:url" content="https://jasminejiang96.github.io/2023/11/20/20231120/index.html">
+<meta property="og:site_name" content="Jasmine&#39;s Blog">
+<meta property="og:description" content="微服务简介 一组小的服务 独立的进程 轻量级通信 基于业务能力 独立部署 无集中式管理  Loosely coupled service oriented architecture with bounded context 基于有界上下文的，松散耦合的⾯向服务的架构 微服务的利弊优势 强模块化边界 可独立部署 技术多样性  劣势 分布式系统复杂性 最终一致性 运维复杂性 测试复杂性  康威法则设计">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jasminejiang96.github.io/photos/pic8.jpg">
+<meta property="article:published_time" content="2023-11-20T09:55:19.000Z">
+<meta property="article:modified_time" content="2023-11-26T15:10:32.210Z">
+<meta property="article:author" content="Jasmine Jiang">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jasminejiang96.github.io/photos/pic8.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jasminejiang96.github.io/2023/11/20/20231120/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"WBHAQ5NZAI","apiKey":"e37eb87afc20f21833e72e10f3a36c83","indexName":"hexo_blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '认识微服务架构',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-26 23:10:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/photos/headportrait.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/photos/pic8.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Jasmine's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">认识微服务架构</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-20T09:55:19.000Z" title="发表于 2023-11-20 17:55:19">2023-11-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-26T15:10:32.210Z" title="更新于 2023-11-26 23:10:32">2023-11-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="认识微服务架构"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="微服务简介"><a href="#微服务简介" class="headerlink" title="微服务简介"></a>微服务简介</h2><ul>
+<li>一组小的服务</li>
+<li>独立的进程</li>
+<li>轻量级通信</li>
+<li>基于业务能力</li>
+<li>独立部署</li>
+<li>无集中式管理</li>
+</ul>
+<p><code>Loosely coupled</code> service oriented architecture with <code>bounded context</code></p>
+<p>基于<code>有界上下文</code>的，<code>松散耦合</code>的⾯向服务的架构</p>
+<h2 id="微服务的利弊"><a href="#微服务的利弊" class="headerlink" title="微服务的利弊"></a>微服务的利弊</h2><h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><ul>
+<li>强模块化边界</li>
+<li>可独立部署</li>
+<li>技术多样性</li>
+</ul>
+<h3 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h3><ul>
+<li>分布式系统复杂性</li>
+<li>最终一致性</li>
+<li>运维复杂性</li>
+<li>测试复杂性</li>
+</ul>
+<h2 id="康威法则"><a href="#康威法则" class="headerlink" title="康威法则"></a>康威法则</h2><p>设计系统的组织，其产生的架构设计等价于组织间的沟通结构</p>
+<h2 id="什么时候开始引入微服务"><a href="#什么时候开始引入微服务" class="headerlink" title="什么时候开始引入微服务"></a>什么时候开始引入微服务</h2><p>单块服务优先，业务规模复杂、团队规模扩展后（例如团队规模达到百人）引入微服务</p>
+<h2 id="什么样的组织架构更适合微服务"><a href="#什么样的组织架构更适合微服务" class="headerlink" title="什么样的组织架构更适合微服务"></a>什么样的组织架构更适合微服务</h2><p><strong>从传统职能型到跨智能产品型</strong></p>
+<p><img src="/screenshot/20231120_01.png"></p>
+<h2 id="微服务中台战略"><a href="#微服务中台战略" class="headerlink" title="微服务中台战略"></a>微服务中台战略</h2><p><img src="/screenshot/20231120_02.png" alt="阿里巴巴的微服务中台"></p>
+<p><code>大中台、小前台</code>，强化技术中台和业务中台，前端业务更小更灵活，赋能业务的持续创新，快速响应市场需求。</p>
+<h2 id="服务分层"><a href="#服务分层" class="headerlink" title="服务分层"></a>服务分层</h2><ul>
+<li><strong>基础服务</strong>： 核心领域服务、公共服务、中间层服务（Middle Tier Service）</li>
+<li><strong>聚合服务</strong>：适配服务、Backend for Frontend（BFF）、边界服务（Edge Service）</li>
+<li>统称微服务或SOA</li>
+</ul>
+<h2 id="微服务总体架构体系"><a href="#微服务总体架构体系" class="headerlink" title="微服务总体架构体系"></a>微服务总体架构体系</h2><p><img src="/screenshot/20231120_03.jpg" alt="微服务总体架构体系图"></p>
+<ul>
+<li><p><strong>接入层</strong>：负载均衡器；运维团队维护</p>
+</li>
+<li><p><strong>网关层</strong>：反向路由，线路熔断、安全等跨横切面的功能</p>
+</li>
+<li><p><strong>业务服务层</strong>：包括基础服务和聚合服务</p>
+</li>
+<li><p><strong>支撑服务层</strong>：注册发现、集中配置、容错限流、认证授权、日志聚合、监控告警、后台服务（MQ、缓存、Job等）</p>
+</li>
+<li><p><strong>平台服务层</strong>：开始引入新的发布体系，比如容器技术，Kubernetes等；包括发布系统、集群资源调度、镜像治理、资源治理、IAM</p>
+</li>
+<li><p><strong>基础设施层</strong>：计算、网络、存储、监控、安全、IDC（数据中心）的管理；运维团队维护</p>
+</li>
+</ul>
+<h2 id="服务发现"><a href="#服务发现" class="headerlink" title="服务发现"></a>服务发现</h2><h3 id="独立LB"><a href="#独立LB" class="headerlink" title="独立LB"></a>独立LB</h3><p>LB用硬件的F5负载均衡器或者软件的ngnix负载均衡器</p>
+<p>当服务提供方上线以后，向运维申请域名，运维配置负载均衡器Load Balancer，将域名指向到后台服务；</p>
+<p>服务消费方Consumer访问服务，通过DNS先做域名解析，域名解析到LB（Load Balancer）上，LB根据域名负载均衡（Load Balancing）调用（Invoke）到后台服务Service Provider</p>
+<p>最简单；消费者成本比较低；服务的配置、域名的配置需要运维介入；集中式LB（可能是个单点）挂掉会影响整个服务无法访问；消费者调用服务必须穿透LB，可能会产生一部分性能开销</p>
+<h3 id="进程内LB"><a href="#进程内LB" class="headerlink" title="进程内LB"></a>进程内LB</h3><p>LB移到了应用进程内，服务提供方Service Provider 自动注册到服务注册表Service Registy，定期发送心跳Registy &amp; keep alive，服务消费者consumer客户端带有服务发现和负载均衡功能，LB调用后台服务，定期同步服务注册表中信息</p>
+<p>没有集中式LB，性能会更好；多语言环境中，需要为每一个消费者开发客户端，升级和多语言支持成本较高。</p>
+<h3 id="主机独立进程LB"><a href="#主机独立进程LB" class="headerlink" title="主机独立进程LB"></a>主机独立进程LB</h3><p>LB以独立进程的方式独立部署在独立主机上</p>
+<p>服务提供方Service Provider 自动注册到服务注册表Service Registy，定期发送心跳Registy &amp; keep alive，LB定期同步服务注册表中信息，消费者要调用服务时，调用的是主机的LB，LB做负载均衡和远程调用</p>
+<p>既没有单点和性能问题，也可以支持多语言，可以灵活接入；每台主机上部署LB进程，运维成本较高</p>
+<h2 id="微服务网关"><a href="#微服务网关" class="headerlink" title="微服务网关"></a>微服务网关</h2><h4 id="API服务网关原理"><a href="#API服务网关原理" class="headerlink" title="API服务网关原理"></a>API服务网关原理</h4><p>API服务网关相当于门卫，屏蔽内部微服务细节，对外提供统一接口</p>
+<p>用户接入设备User Interface –&gt; 负载均衡器Load balancer –&gt; 网关层API Gateway –&gt; 微服务Micro-Services</p>
+<p>网关可以部署多个，提高系统的稳定性和可用性</p>
+<p><strong>网关功能</strong>：</p>
+<ul>
+<li>反向路由，将外面的请求转换程内部的服务</li>
+<li>认证安全，对请求进行身份认证验证，阻止爬虫和黑客行为等</li>
+<li>限流熔断，流量洪峰时承担限流熔断职责，防止内部服务瘫痪</li>
+<li>日志监控，对所有流量进行访问审计，保存并分析日志，进行流量监控</li>
+</ul>
+<h4 id="开源网关Zuul"><a href="#开源网关Zuul" class="headerlink" title="开源网关Zuul"></a>开源网关Zuul</h4><p><img src="/screenshot/20231120_04.jpg" alt="Netflix Zuul网关架构"></p>
+<p>Zuul 核心是 Servlet，运行在tomcat容器中；核心组件 ZuulFilter Runner（Zuul执行filter的处理器），管理了 Zuul 内部所有的过滤器 Filter；过滤器分为3个层次，前置路由过滤器 <code>Pre routing filters</code>、路由过滤器 <code>routing filters</code>、后置路由过滤器 <code>Post routing filters</code>，过滤器都是Groovy脚本 可以<code>动态插拔</code></p>
+<p>请求进来先到 Servlet，Servlet将请求传递给ZuulFilter Runner，先经过前置路由过滤（比如日志处理，路由功能），再经过路由过滤器（找到目标服务进行调用），再经过后置路由过滤器（事后处理，日志统计审计等）</p>
+<p><strong>过滤器上传加载机制</strong>：Filter publisher 过滤器开发编译完成后上传到过滤器存储数据库中 Filter Persistence，Filter Poller 轮询Persister中的filter并将新filter推送至网关的过滤器目录Filter Directory，Filter File Manager 网关的过滤器文件管理器会定期的扫描目录，如果有新的过滤器，通过Filter Loader 加载到网关的Filter Runner，过滤器生效。</p>
+<p>Request Context （Zuul Request的上下文）可以在各个阶段的过滤器分享相关信息</p>
+<p><img src="/screenshot/20231120_05.jpg" alt="Netflix Zuul网关架构过滤链流程"></p>
+<p>Request先经过前置路由过滤，也可以加一些自己定制的过滤器 Customer Filters，再经过路由过滤器，调用后台微服务Origin Server，再经过后置路由过滤器，如果出错，执行Error Filters，最后以Response的形式回到客户端。</p>
+<h2 id="微服务服务路由发现体系"><a href="#微服务服务路由发现体系" class="headerlink" title="微服务服务路由发现体系"></a>微服务服务路由发现体系</h2><p><img src="/screenshot/20231120_06.jpg" alt="微服务服务路由发现体系"></p>
+<p>支撑服务：服务注册中心（Netflix开源组件Eureka）和网关层（Netflix开源组件Zuul）</p>
+<p>内部微服务：基础服务层、聚合服务层</p>
+<p>内部服务之前发现：通过服务发现中心，基础服务注册到服务发现中心，聚合服务调用时基础服务时，通过服务注册中心发现，拉取路由表，实现调用；内部服务调用，直连客户端负载</p>
+<p>外部LB客户端调用服务：通过网关层，网关层同步对应通过自己要放出去的服务列表，网关通过路由表实现调用聚合服务</p>
+<p>服务治理：服务注册中心可以对服务的调用进行安全管控</p>
+<h2 id="微服务配置中心"><a href="#微服务配置中心" class="headerlink" title="微服务配置中心"></a>微服务配置中心</h2><p><strong>作用</strong>：</p>
+<ul>
+<li>没有配置中心，配置放在配置文件中，配置不标准，格式不统一，上线后修改，周期比较长，一旦有重大故障，需要该配置或重新发布，需要的时间长对业务影响大，配置中心可以<code>实时修改配置，比较灵活</code></li>
+<li>如果没有完整的配置系统，对配置的修改没有<code>审计功能</code>，后期无法追溯。</li>
+</ul>
+<p>可以作为配置的东西：<code>连接字符串</code>（数据库连接字符串、缓存连接字符串、消息队列连接字符串）、<code>可以动态调整的参数</code>（客户端超时设置、限流的阈值）、<code>业务的开关</code>（比如某个功能只在某个时间生效）</p>
+<p>服务连到配置中心以后，可以实时更新配置，更新方式有两种：服务主动到服务中心拉取配置pull，服务中心推送配置给服务push。两种方式各有利弊，pull能保证一定能拉取到配置，push能实时更新，但可能由于网络问题无法实时推送成功</p>
+<p>常见的配置中心：spring cloud config、百度discount、携程Apollo</p>
+<p><img src="/screenshot/20231120_07.png" alt="Apollo配置中心架构简图"></p>
+<p>Apollo高可用性的设计：</p>
+<ul>
+<li><p><code>缓存机制</code>:Apollo带有客户端（支持Java或.net客户端），配置中心更新以后，首先会拉取到客户端缓存中，为了防止缓存丢失，Apollo客户端能定期将配置缓存到本地。即使是配置中心挂了或者客户端重启了，因为本地缓存文件还在，还是能将配置更新到应用程序中，因此具有高可用性。</p>
+</li>
+<li><p><code>两种配置更新方式</code>:Apollo配置中心将配置更新推送到Apollo客户端、Apollo客户端定时拉取Apollo配置中心配置，保证最终能把更新的配置同步到客户端。</p>
+</li>
+</ul>
+<p>携程apo开源项目：<a target="_blank" rel="noopener" href="http://github.com/ctripcoup/apollo">http://github.com/ctripcoup/apollo</a></p>
+<h2 id="微服务通信方式RPC-vs-REST"><a href="#微服务通信方式RPC-vs-REST" class="headerlink" title="微服务通信方式RPC vs REST"></a>微服务通信方式RPC vs REST</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>RPC</th>
+<th>REST</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>耦合性</td>
+<td>强耦合</td>
+<td>松散耦合</td>
+</tr>
+<tr>
+<td>消息协议</td>
+<td>二进制thrift,protobuf,avro</td>
+<td>文本XML,JSON</td>
+</tr>
+<tr>
+<td>通信协议</td>
+<td>TCP</td>
+<td>HTTP/HTTP2</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>高</td>
+<td>一般低于RPC</td>
+</tr>
+<tr>
+<td>接口契约IDL</td>
+<td>thrift，protobuf IDL</td>
+<td>swagger</td>
+</tr>
+<tr>
+<td>客户端</td>
+<td>强类型客户端，一般自动生成多语言</td>
+<td>一般HTTP客户端可访问，可自动生成强类型客户端，支持多语言</td>
+</tr>
+<tr>
+<td>案例</td>
+<td>阿里Dubbo、腾讯Tars、新浪motan、谷歌grpc、thrift</td>
+<td>spring MVC/spring Boot，Jax-rs，dropwizard</td>
+</tr>
+<tr>
+<td>开发者友好</td>
+<td>客户端比较方便，但二进制消息不可读</td>
+<td>文本消息开发者可读，浏览器就可以访问</td>
+</tr>
+<tr>
+<td>对外开放</td>
+<td>对外一般需要转换成REST/文本协议</td>
+<td>直接可以对外开放</td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://jasminejiang96.github.io">Jasmine Jiang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://jasminejiang96.github.io/2023/11/20/20231120/">https://jasminejiang96.github.io/2023/11/20/20231120/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://jasminejiang96.github.io" target="_blank">Jasmine's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></div><div class="post_share"><div class="social-share" data-image="/photos/pic8.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/11/27/20231127/"><img class="prev-cover" src="/photos/pic7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">DS注解搞定多数据源切换</div></div></a></div><div class="next-post pull-right"><a href="/2023/11/08/20231108/"><img class="next-cover" src="/photos/pic3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">2023系统架构师考试总结</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Valine</span><span class="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/photos/headportrait.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jasmine Jiang</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JasmineJiang96"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">微服务简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%88%A9%E5%BC%8A"><span class="toc-number">2.</span> <span class="toc-text">微服务的利弊</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-number">2.1.</span> <span class="toc-text">优势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A3%E5%8A%BF"><span class="toc-number">2.2.</span> <span class="toc-text">劣势</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%B7%E5%A8%81%E6%B3%95%E5%88%99"><span class="toc-number">3.</span> <span class="toc-text">康威法则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%BC%80%E5%A7%8B%E5%BC%95%E5%85%A5%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-number">4.</span> <span class="toc-text">什么时候开始引入微服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E7%BB%84%E7%BB%87%E6%9E%B6%E6%9E%84%E6%9B%B4%E9%80%82%E5%90%88%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-number">5.</span> <span class="toc-text">什么样的组织架构更适合微服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B8%AD%E5%8F%B0%E6%88%98%E7%95%A5"><span class="toc-number">6.</span> <span class="toc-text">微服务中台战略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%88%86%E5%B1%82"><span class="toc-number">7.</span> <span class="toc-text">服务分层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84%E4%BD%93%E7%B3%BB"><span class="toc-number">8.</span> <span class="toc-text">微服务总体架构体系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="toc-number">9.</span> <span class="toc-text">服务发现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8B%AC%E7%AB%8BLB"><span class="toc-number">9.1.</span> <span class="toc-text">独立LB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%86%85LB"><span class="toc-number">9.2.</span> <span class="toc-text">进程内LB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E7%8B%AC%E7%AB%8B%E8%BF%9B%E7%A8%8BLB"><span class="toc-number">9.3.</span> <span class="toc-text">主机独立进程LB</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3"><span class="toc-number">10.</span> <span class="toc-text">微服务网关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#API%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3%E5%8E%9F%E7%90%86"><span class="toc-number">10.0.1.</span> <span class="toc-text">API服务网关原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E6%BA%90%E7%BD%91%E5%85%B3Zuul"><span class="toc-number">10.0.2.</span> <span class="toc-text">开源网关Zuul</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9C%8D%E5%8A%A1%E8%B7%AF%E7%94%B1%E5%8F%91%E7%8E%B0%E4%BD%93%E7%B3%BB"><span class="toc-number">11.</span> <span class="toc-text">微服务服务路由发现体系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83"><span class="toc-number">12.</span> <span class="toc-text">微服务配置中心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8FRPC-vs-REST"><span class="toc-number">13.</span> <span class="toc-text">微服务通信方式RPC vs REST</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/27/20231127/" title="DS注解搞定多数据源切换"><img src="/photos/pic7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DS注解搞定多数据源切换"/></a><div class="content"><a class="title" href="/2023/11/27/20231127/" title="DS注解搞定多数据源切换">DS注解搞定多数据源切换</a><time datetime="2023-11-27T03:33:22.000Z" title="发表于 2023-11-27 11:33:22">2023-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/20/20231120/" title="认识微服务架构"><img src="/photos/pic8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="认识微服务架构"/></a><div class="content"><a class="title" href="/2023/11/20/20231120/" title="认识微服务架构">认识微服务架构</a><time datetime="2023-11-20T09:55:19.000Z" title="发表于 2023-11-20 17:55:19">2023-11-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/08/20231108/" title="2023系统架构师考试总结"><img src="/photos/pic3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2023系统架构师考试总结"/></a><div class="content"><a class="title" href="/2023/11/08/20231108/" title="2023系统架构师考试总结">2023系统架构师考试总结</a><time datetime="2023-11-08T10:46:40.000Z" title="发表于 2023-11-08 18:46:40">2023-11-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/14/20231014/" title="Linux常用命令行"><img src="/photos/pic7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux常用命令行"/></a><div class="content"><a class="title" href="/2023/10/14/20231014/" title="Linux常用命令行">Linux常用命令行</a><time datetime="2023-10-14T06:30:01.000Z" title="发表于 2023-10-14 14:30:01">2023-10-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/10/20230810/" title="tomcat启动闪退"><img src="/photos/pic4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="tomcat启动闪退"/></a><div class="content"><a class="title" href="/2023/08/10/20230810/" title="tomcat启动闪退">tomcat启动闪退</a><time datetime="2023-08-10T07:30:10.000Z" title="发表于 2023-08-10 15:30:10">2023-08-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/photos/pic8.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By Jasmine Jiang</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://jasminejiang96.github.io/2023/11/20/20231120/'
+    this.page.identifier = '/2023/11/20/20231120/'
+    this.page.title = '认识微服务架构'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+
+  document.getElementById('darkmode').addEventListener('click', () => {
+    setTimeout(() => window.disqusReset(), 200)
+  })
+}
+
+if ('Valine' === 'Disqus' || !true) {
+  if (true) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><div class="aplayer no-destroy" data-id="60198" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

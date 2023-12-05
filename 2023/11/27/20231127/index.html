@@ -1,0 +1,405 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>DS注解搞定多数据源切换 | Jasmine's Blog</title><meta name="keywords" content="java"><meta name="author" content="Jasmine Jiang"><meta name="copyright" content="Jasmine Jiang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在开发过程中，我们经常会用到同时用到多个数据库的情况，需要我们实现切换不同的数据源。@DS注解能实现一个注解更快捷的切换数据源。 pom文件引入依赖    &lt;!--配置多数据源--&gt;     &lt;dependency&gt;         &lt;groupId&gt;com.baomidou&lt;&#x2F;groupId&gt;         &lt;artifactId&gt;d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DS注解搞定多数据源切换">
+<meta property="og:url" content="https://jasminejiang96.github.io/2023/11/27/20231127/index.html">
+<meta property="og:site_name" content="Jasmine&#39;s Blog">
+<meta property="og:description" content="在开发过程中，我们经常会用到同时用到多个数据库的情况，需要我们实现切换不同的数据源。@DS注解能实现一个注解更快捷的切换数据源。 pom文件引入依赖    &lt;!--配置多数据源--&gt;     &lt;dependency&gt;         &lt;groupId&gt;com.baomidou&lt;&#x2F;groupId&gt;         &lt;artifactId&gt;d">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jasminejiang96.github.io/photos/pic7.jpg">
+<meta property="article:published_time" content="2023-11-27T03:33:22.000Z">
+<meta property="article:modified_time" content="2023-12-05T06:10:24.059Z">
+<meta property="article:author" content="Jasmine Jiang">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jasminejiang96.github.io/photos/pic7.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jasminejiang96.github.io/2023/11/27/20231127/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"WBHAQ5NZAI","apiKey":"e37eb87afc20f21833e72e10f3a36c83","indexName":"hexo_blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'DS注解搞定多数据源切换',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-12-05 14:10:24'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/photos/headportrait.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/photos/pic7.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Jasmine's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">DS注解搞定多数据源切换</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-27T03:33:22.000Z" title="发表于 2023-11-27 11:33:22">2023-11-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-05T06:10:24.059Z" title="更新于 2023-12-05 14:10:24">2023-12-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="DS注解搞定多数据源切换"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>在开发过程中，我们经常会用到同时用到多个数据库的情况，需要我们实现切换不同的数据源。<code>@DS</code>注解能实现一个注解更快捷的切换数据源。</p>
+<h1 id="pom文件引入依赖"><a href="#pom文件引入依赖" class="headerlink" title="pom文件引入依赖"></a>pom文件引入依赖</h1><pre><code class="xml">    &lt;!--配置多数据源--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.baomidou&lt;/groupId&gt;
+        &lt;artifactId&gt;dynamic-datasource-spring-boot-starter&lt;/artifactId&gt;
+        &lt;version&gt;$&#123;version&#125;&lt;/version&gt;
+    &lt;/dependency&gt;
+</code></pre>
+<p><code>dynamic-datasource-spring-boot-starter</code>跟 <code>mybatis-plus</code> 是一个生态圈里的，都是由苞米豆团队出品，很容易集成 <code>mybatis-plus</code></p>
+<h1 id="修改YML配置"><a href="#修改YML配置" class="headerlink" title="修改YML配置"></a>修改YML配置</h1><pre><code class="yml">datasource:
+    dynamic:
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      datasource:
+        # 默认库master
+        master:
+          username: xxxx
+          password: xxxxxx
+          url: jdbc:oracle:thin:@127.0.0.1:1521:orcl
+          driver-class-name: oracle.jdbc.driver.OracleDriver
+        # 从库slave_1
+        slave_1:
+          username: xxxx
+          password: xxxxxx
+          url: jdbc:mysql://localhost:3306/table1?serverTimezone=GMT%2B8&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;allowMultiQueries=true&amp;allowPublicKeyRetrieval=true
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          # 从库slave_2
+        slave_1:
+          username: xxxx
+          password: xxxxxx
+          url: jdbc:mysql://localhost:3306/table2?serverTimezone=GMT%2B8&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;allowMultiQueries=true&amp;allowPublicKeyRetrieval=true
+          driver-class-name: com.mysql.cj.jdbc.Driver
+         #......省略
+</code></pre>
+<pre><code class="yml"># 多主多从 
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        master_1:
+        master_2:
+        slave_1:
+        slave_2:
+        slave_3:
+</code></pre>
+<ul>
+<li>配置文件所有以下划线 <code>_</code> 分割的数据源 <code>首部</code> 即为组的名称，相同组名称的数据源会放在一个组下</li>
+<li>切换数据源可以是组名，也可以是具体数据源名称。组名则切换时采用负载均衡算法切换</li>
+</ul>
+<h1 id="使用-DS切换数据源"><a href="#使用-DS切换数据源" class="headerlink" title="使用@DS切换数据源"></a>使用@DS切换数据源</h1><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>没有@DS</td>
+<td>默认数据源</td>
+</tr>
+<tr>
+<td>@DS(“dsName”)</td>
+<td>dsName可以为组名也可以为具体某个库的名称</td>
+</tr>
+</tbody></table>
+<p><strong>@DS</strong> 可以注解在方法上或类上，<strong>同时存在就近原则 方法上注解 优先于 类上注解</strong>。</p>
+<p>(一般用在mapper、service上)</p>
+<pre><code class="java">@Service
+@DS(&quot;slave&quot;)
+public class FileServiceImpl implements FileService &#123;
+    @Resource
+    FileDao fileDao;
+
+    @Override
+    public int deleteById(String id) &#123;
+        return fileDao.deleteById(id);
+    &#125;
+    
+    @Override
+    @DS(&quot;slave_1&quot;)
+    public List&lt;FileInfo&gt; selectByMap(Map&lt;String, Object&gt; params) &#123;
+        return fileDao.selectByMap(params);
+    &#125;
+&#125;
+</code></pre>
+<h1 id="其他说明"><a href="#其他说明" class="headerlink" title="其他说明"></a>其他说明</h1><ul>
+<li><code>DS</code> 支持继承抽象类上的 <code>DS</code>，暂不支持继承接口上的 <code>DS</code></li>
+<li>不可在事务中切换数据库，保证事务需要方法使用同一连接，使用@DS(dataSourceOne)方法调用@DS(dataSourceTwo)无法切换连接，会导致方法报错。</li>
+<li>集成Druid需要在启动类排除掉 <code>DruidDataSourceAutoConfigure</code> 类，不然启动会报错找不到配置的 <code>url</code></li>
+<li>github参考文档：<a target="_blank" rel="noopener" href="https://github.com/baomidou/dynamic-datasource-spring-boot-starter">https://github.com/baomidou/dynamic-datasource-spring-boot-starter</a></li>
+<li>gitee参考文档： <a target="_blank" rel="noopener" href="https://gitee.com/baomidou/dynamic-datasource-spring-boot-starter">https://gitee.com/baomidou/dynamic-datasource-spring-boot-starter</a></li>
+</ul>
+<p><code>穷则变，变则通，通则久。</code></p>
+<p>—— 《周易·系辞下》</p>
+<p>事物发展到了极点，就要发生变化，才会使事物的发展不受阻塞，事物才能不断地发展。道行不通时选择变化，变化了后就会豁然开朗，行得通则可以长久。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://jasminejiang96.github.io">Jasmine Jiang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://jasminejiang96.github.io/2023/11/27/20231127/">https://jasminejiang96.github.io/2023/11/27/20231127/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://jasminejiang96.github.io" target="_blank">Jasmine's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a></div><div class="post_share"><div class="social-share" data-image="/photos/pic7.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/11/20/20231120/"><img class="next-cover" src="/photos/pic8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">认识微服务架构</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Valine</span><span class="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/photos/headportrait.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jasmine Jiang</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JasmineJiang96"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#pom%E6%96%87%E4%BB%B6%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="toc-number">1.</span> <span class="toc-text">pom文件引入依赖</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9YML%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">修改YML配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-DS%E5%88%87%E6%8D%A2%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="toc-number">3.</span> <span class="toc-text">使用@DS切换数据源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%AF%B4%E6%98%8E"><span class="toc-number">4.</span> <span class="toc-text">其他说明</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/27/20231127/" title="DS注解搞定多数据源切换"><img src="/photos/pic7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DS注解搞定多数据源切换"/></a><div class="content"><a class="title" href="/2023/11/27/20231127/" title="DS注解搞定多数据源切换">DS注解搞定多数据源切换</a><time datetime="2023-11-27T03:33:22.000Z" title="发表于 2023-11-27 11:33:22">2023-11-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/20/20231120/" title="认识微服务架构"><img src="/photos/pic8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="认识微服务架构"/></a><div class="content"><a class="title" href="/2023/11/20/20231120/" title="认识微服务架构">认识微服务架构</a><time datetime="2023-11-20T09:55:19.000Z" title="发表于 2023-11-20 17:55:19">2023-11-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/08/20231108/" title="2023系统架构师考试总结"><img src="/photos/pic3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2023系统架构师考试总结"/></a><div class="content"><a class="title" href="/2023/11/08/20231108/" title="2023系统架构师考试总结">2023系统架构师考试总结</a><time datetime="2023-11-08T10:46:40.000Z" title="发表于 2023-11-08 18:46:40">2023-11-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/14/20231014/" title="Linux常用命令行"><img src="/photos/pic7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux常用命令行"/></a><div class="content"><a class="title" href="/2023/10/14/20231014/" title="Linux常用命令行">Linux常用命令行</a><time datetime="2023-10-14T06:30:01.000Z" title="发表于 2023-10-14 14:30:01">2023-10-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/10/20230810/" title="tomcat启动闪退"><img src="/photos/pic4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="tomcat启动闪退"/></a><div class="content"><a class="title" href="/2023/08/10/20230810/" title="tomcat启动闪退">tomcat启动闪退</a><time datetime="2023-08-10T07:30:10.000Z" title="发表于 2023-08-10 15:30:10">2023-08-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/photos/pic7.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By Jasmine Jiang</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://jasminejiang96.github.io/2023/11/27/20231127/'
+    this.page.identifier = '/2023/11/27/20231127/'
+    this.page.title = 'DS注解搞定多数据源切换'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+
+  document.getElementById('darkmode').addEventListener('click', () => {
+    setTimeout(() => window.disqusReset(), 200)
+  })
+}
+
+if ('Valine' === 'Disqus' || !true) {
+  if (true) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><div class="aplayer no-destroy" data-id="60198" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
